@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Modular Request Resolver API</title>
+  </head>
+  <body>
+    <h1>Modular Request Resolver API</h1>
+    <p>Welcome to the Modular Request Resolver API!</p>
+    <form id="login-form">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username"><br><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password"><br><br>
+      <button type="submit">Login</button>
+    </form>
+    <div id="protected-content">
+      <!-- This content will be displayed after successful login -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+    <script>
+      const loginForm = document.getElementById('login-form');
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        try {
+          const response = await axios.post('/login', { username, password });
+          const accessToken = response.data.access_token;
+          axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+          const protectedResponse = await axios.get('/protected');
+          document.getElementById('protected-content').innerHTML = protectedResponse.data.message;
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    </script>
+  </body>
+</html>

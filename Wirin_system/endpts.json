@@ -1,0 +1,35 @@
+{
+    "endpoints": [
+      "/cardata/cardata1/speed/<side>/post",
+      "/cardata/cardata1/speed/<side>/get",
+      "/cardata/cardata1/steeringangle/post",
+      "/cardata/cardata1/steeringangle/get",
+      "/cardata/cardata1/brakelevel/post",
+      "/cardata/cardata1/brakelevel/get",
+      "/cardata/cardata2/ihumidity/post",
+      "/cardata/cardata2/ihumidity/get",
+      "/cardata/cardata2/itemperature/post",
+      "/cardata/cardata2/itemperature/get",
+      "/cardata/cardata3/can/<num>/stat/post",
+      "/cardata/cardata3/can/<num>/stat/get",
+      "/cardata/cardata3/internet/post",
+      "/cardata/cardata3/internet/get",
+      "/cardata/cardata3/ethernet/post",
+      "/cardata/cardata3/ethernet/get",
+      "/cardata/cardata4/globalclock/get",
+      "/cardata/cardata4/distance_to_empty/post",
+      "/cardata/cardata4/distance_to_empty/get",
+      "/cardata/cardata4/disttravelled/post",
+      "/cardata/cardata4/disttravelled/get",
+      "/cardata/cardata4/drivemode/post",
+      "/cardata/cardata4/drivemode/get",
+      "/controlsettings/lowlevelcontrolmode/<mode>",
+      "/controlsettings/lowlevelcontrolmode",
+      "/controlsettings/pidstatus/<component>/<action>",
+      "/controlsettings/pidstatus/<component>",
+      "/controlsettings/masterpidvalues/<component>/<int:value>",
+      "/controlsettings/masterpidvalues/<component>",
+      "/status/controlsettings"
+    ]
+  }
+  

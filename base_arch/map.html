@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Directions</title>
+    <!-- Include Mapbox CSS -->
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        /* Style for the map container */
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Map Directions</h1>
+
+    <!-- Container for the map -->
+    <div id="map"></div>
+
+    <!-- Script to include Mapbox GL JS -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
+    <script>
+        // Access token for Mapbox
+        mapboxgl.accessToken = '{{ pk.eyJ1Ijoid2lwb2RydmNlIiwiYSI6ImNsdnVzN255YzE5MDYycm55c3hheDhtdTUifQ.lEWdCkssgxZWHlg0eGNkiw }}'; // Replace with your Mapbox token from Flask
+
+        // Initialize the map
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11', // Specify the map style
+            center: [-74.5, 40], // Initial map center coordinates
+            zoom: 9 // Initial zoom level
+        });
+
+        // Function to fetch directions from Flask API
+        function getRoute() {
+            const startCoordinates = [-74.006, 40.7128]; // Example start coordinates
+            const endCoordinates = [-73.986, 40.748]; // Example end coordinates
+
+            fetch(`/api/directions?start=${startCoordinates.join(',')}&end=${endCoordinates.join(',')}`)
+                .then(response => response.json())
+                .then(data => {
+                    const route = data.geometry;
+                    addRouteToMap(route); // Display route on the map
+                    fitRouteToBounds(route); // Fit map bounds to the route
+                })
+                .catch(error => {
+                    console.error('Error fetching directions:', error);
+                    alert("Error fetching directions. Please try again.");
+                });
+        }
+
+        // Function to add route to the map
+        function addRouteToMap(route) {
+            if (map.getSource('route')) {
+                map.getSource('route').setData({
+                    type: 'Feature',
+                    geometry: route
+                });
+            } else {
+                map.addLayer({
+                    id: 'route',
+                    type: 'line',
+                    source: {
+                        type: 'geojson',
+                        data: {
+                            type: 'Feature',
+                            geometry: route
+                        }
+                    },
+                    layout: {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    paint: {
+                        'line-color': '#3887be',
+                        'line-width': 10,
+                        'line-opacity': 0.75
+                    }
+                });
+            }
+        }
+
+        // Function to fit map bounds to the route
+        function fitRouteToBounds(route) {
+            const bounds = new mapboxgl.LngLatBounds();
+            route.coordinates.forEach(coord => {
+                bounds.extend(coord);
+            });
+            map.fitBounds(bounds, {
+                padding: { top: 50, bottom: 50, left: 50, right: 50 },
+                pitch: 0
+            });
+        }
+
+        // Fetch directions when the page loads
+        getRoute();
+    </script>
+</body>
+</html>

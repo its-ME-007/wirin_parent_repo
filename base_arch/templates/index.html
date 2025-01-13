@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Display a map on a webpage</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" type="text/css">
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+</head>
+<body>
+    <div id="map"></div>
+    <div id="geocoder-container" class="geocoder-container">
+        <div id="geocoder-start" class="geocoder"></div>
+        <div id="geocoder-end" class="geocoder"></div>
+        <button id="use-user-location" onclick="useUserLocation()">Use My Location</button>
+        <button id="get-route" onclick="getRoute()">Get Route</button>
+        <div id="loading" class="loading">Loading...</div>
+    </div>
+    <script>
+        mapboxgl.accessToken = '{{ mapbox_token }}';
+    </script>
+    <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/controls.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/route.js') }}"></script>
+</body>
+</html>

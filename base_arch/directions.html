@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Maps Directions</title>
+    <style>
+        #map {
+            height: 80%;
+            width: 100%;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqlgjgW4XiLsJM33jY8voBIjGUQswKd_I&callback=initMap" async defer></script>
+    <script>
+        let map;
+        function initMap() {
+            const origin = "{{ origin }}";
+            const destination = "{{ destination }}";
+            const directionsService = new google.maps.DirectionsService();
+            const directionsRenderer = new google.maps.DirectionsRenderer();
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 6,
+            });
+            directionsRenderer.setMap(map);
+            calculateAndDisplayRoute(directionsService, directionsRenderer, origin, destination);
+        }
+
+        function calculateAndDisplayRoute(directionsService, directionsRenderer, origin, destination) {
+            directionsService.route(
+                {
+                    origin: origin,
+                    destination: destination,
+                    travelMode: google.maps.TravelMode.DRIVING,
+                },
+                (response, status) => {
+                    if (status === "OK") {
+                        directionsRenderer.setDirections(response);
+                    } else {
+                        window.alert("Directions request failed due to " + status);
+                    }
+                }
+            );
+        }
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+</body>
+</html>
